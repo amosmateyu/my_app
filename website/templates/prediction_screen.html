@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Risk Prediction | CardioCheck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/prediction.css') }}">
+  
+  
+  
+</head>
+<body>
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-heartbeat" style="color: white; font-size: 24px;"></i>
+                <span class="logo-text">CardioCheck</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.home') }}" class="btn-nav">Home</a></li>
+                <li><a href="{{ url_for('main.prediction') }}" class="btn-nav active">Assessment</a></li>
+                <li><a href="{{ url_for('main.about') }}" class="btn-nav">About</a></li>
+                <li>
+                    <a href="{{ url_for('auth.logout') }}" id="logoutBtn" class="btn-nav" data-logout-url="{{ url_for('auth.logout') }}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+         
+            <h1>Heart Disease Risk Assessment</h1>
+            
+        </div>
+    </header>
+
+    <!-- Prediction Form -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">Select  Health Information</h2>
+
+            <div class="prediction-form">
+                <form id="predictionForm">
+                    <div class="form-grid">
+                        <!-- Demographics -->
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            <input type="text" id="first_name" name="first_name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age"  min="18" max="100" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option ></option>
+                                <option value="male">male</option>
+                                <option value="female">female</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bp">high blood pressure</label>
+                            <select id="bp" name="bp" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cholesterol">high cholesterol Level</label>
+                            <select id="cholesterol" name="cholesterol" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="diabetes">diabetes</label>
+                            <select id="diabetes" name="diabetes" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="obesity">obesity</label>
+                            <select id="obesity" name="obesity" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+
+                        <!-- Lifestyle & Risk Factors -->
+                        <div class="form-group">
+                            <label for="sedentary_lifestyle">Sedentary Lifestyle</label>
+                            <select id="sedentary_lifestyle" name="sedentary_lifestyle" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="family_history">Family History of Heart Disease</label>
+                            <select id="family_history" name="family_history" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="chronic_stress">Chronic Stress</label>
+                            <select id="chronic_stress" name="chronic_stress" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="smoking">Smoking</label>
+                            <select id="smoking" name="smoking" required>
+                                <option ></option>
+                                <option value="yes">yes</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary">Assess Your Risk</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Result Display -->
+            <div id="result" style="margin-top:30px; padding:20px; border-radius:10px; display:none;">
+                <h3>Clinical Measurements:</h3>
+                <ul id="resultList"></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+            
+                <p class="copyright">© Heart Disease Risk Assessment. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+   
+    <script src="{{ url_for('static', filename='javascript/back_arrow.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/prediction.js') }}"></script>
+
+   
+</body>
+</html>

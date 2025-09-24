@@ -1,0 +1,363 @@
+:root {
+  --light-sage: #B4B8AB;
+  --dark-blue: #153243;
+  --medium-blue: #284B63;
+  --light-cream: #F4F9E9;
+  --off-white: #EEF0EB;
+  --accent-gold: #8a7a6a;
+  --text-dark: #153243;
+  --text-light: #5b5e5a;
+  --white: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --success: #4CAF50;
+  --warning: #FF9800;
+  --danger: #F44336;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--off-white);
+  color: var(--text-dark);
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: clamp(15px, 3vw, 40px);
+}
+
+.wrapper {
+  background: var(--white);
+  border-radius: clamp(10px, 2vw, 15px);
+  box-shadow: 0 10px 30px var(--shadow);
+  width: 100%;
+  max-width: clamp(400px, 80%, 600px);
+  overflow: hidden;
+}
+
+.form-header {
+  background: linear-gradient(135deg, var(--medium-blue) 0%, var(--dark-blue) 100%);
+  color: var(--white);
+  padding: clamp(30px, 8vw, 50px) clamp(20px, 5vw, 40px);
+  text-align: center;
+}
+
+.form-header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  margin-bottom: clamp(8px, 2vw, 10px);
+}
+
+.form-header p {
+  opacity: 0.9;
+}
+
+.form-body {
+  padding: clamp(20px, 5vw, 35px);
+}
+
+.form-group {
+  margin-bottom: clamp(15px, 4vw, 20px);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: clamp(5px, 1.5vw, 8px);
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-group i {
+  position: absolute;
+  left: clamp(10px, 3vw, 15px);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.input-group input {
+  width: 100%;
+  padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 15px) clamp(12px, 3vw, 15px) clamp(40px, 10vw, 45px);
+  border: 2px solid var(--light-cream);
+  border-radius: clamp(6px, 2vw, 8px);
+  font-size: clamp(0.95rem, 2.5vw, 1rem);
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--medium-blue);
+}
+
+.terms {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 2vw, 10px);
+  margin-bottom: clamp(15px, 3vw, 20px);
+}
+
+.terms input[type="checkbox"] {
+  width: clamp(14px, 4vw, 18px);
+  height: clamp(14px, 4vw, 18px);
+}
+
+.terms label {
+  font-size: clamp(0.85rem, 2.5vw, 0.9rem);
+  color: var(--text-light);
+}
+
+.terms a {
+  color: var(--medium-blue);
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
+
+.btn-signup {
+  width: 100%;
+  padding: clamp(14px, 3vw, 16px);
+  background: var(--dark-blue);
+  color: var(--white);
+  border: none;
+  border-radius: clamp(6px, 2vw, 8px);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-signup:hover {
+  background: var(--medium-blue);
+}
+
+.error-message {
+  background: rgba(244, 67, 54, 0.1);
+  color: var(--danger);
+  padding: clamp(10px, 3vw, 12px);
+  border-radius: clamp(6px, 2vw, 8px);
+  margin-bottom: clamp(15px, 3vw, 20px);
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 2vw, 10px);
+}
+
+.success-message {
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--success);
+  padding: clamp(10px, 3vw, 12px);
+  border-radius: clamp(6px, 2vw, 8px);
+  margin-bottom: clamp(15px, 3vw, 20px);
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 2vw, 10px);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: clamp(10px, 3vw, 15px);
+  font-size: clamp(0.85rem, 2.5vw, 0.9rem);
+}
+
+.login-link a {
+  color: var(--medium-blue);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.login-link a:hover {
+  color: var(--dark-blue);
+  text-decoration: underline;
+}
+
+.small-flag {
+  width: clamp(16px, 4vw, 20px);
+  height: auto;
+  margin-right: clamp(4px, 1.5vw, 6px);
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+/* Password strength indicator */
+.password-strength {
+  margin-top: clamp(6px, 2vw, 8px);
+  height: clamp(4px, 1vw, 5px);
+  border-radius: clamp(2px, 1vw, 3px);
+  background: #eee;
+  position: relative;
+  overflow: hidden;
+}
+
+.password-strength::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  transition: width 0.3s, background 0.3s;
+}
+
+.password-strength.weak::before {
+  width: 33%;
+  background: var(--danger);
+}
+
+.password-strength.medium::before {
+  width: 66%;
+  background: var(--warning);
+}
+
+.password-strength.strong::before {
+  width: 100%;
+  background: var(--success);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .form-header {
+    padding: clamp(20px, 6vw, 30px);
+  }
+
+  .form-body {
+    padding: clamp(15px, 4vw, 20px);
+  }
+
+  .form-header h1 {
+    font-size: clamp(1.3rem, 5vw, 1.5rem);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .wrapper {
+    max-width: clamp(450px, 80%, 500px);
+  }
+
+  .form-header {
+    padding: clamp(30px, 6vw, 35px) clamp(20px, 5vw, 25px);
+  }
+
+  .form-header h1 {
+    font-size: clamp(1.5rem, 4vw, 1.7rem);
+  }
+
+  .form-body {
+    padding: clamp(20px, 5vw, 25px);
+  }
+
+  .input-group input {
+    padding-left: clamp(40px, 10vw, 45px);
+    font-size: clamp(0.9rem, 2.5vw, 0.95rem);
+  }
+
+  .btn-signup {
+    padding: clamp(12px, 3vw, 14px);
+    font-size: clamp(0.9rem, 2.5vw, 0.95rem);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .wrapper {
+    max-width: clamp(500px, 80%, 550px);
+  }
+
+  .form-header {
+    padding: clamp(35px, 7vw, 40px) clamp(25px, 5vw, 30px);
+  }
+
+  .form-header h1 {
+    font-size: clamp(1.6rem, 4vw, 1.8rem);
+  }
+
+  .form-body {
+    padding: clamp(25px, 5vw, 30px);
+  }
+
+  .btn-signup {
+    padding: clamp(13px, 3vw, 15px);
+    font-size: clamp(0.95rem, 2.5vw, 1rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .wrapper {
+    max-width: 600px;
+    border-radius: clamp(12px, 2vw, 15px);
+  }
+
+  .form-header {
+    padding: clamp(40px, 8vw, 50px) clamp(30px, 5vw, 40px);
+  }
+
+  .form-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2rem);
+  }
+
+  .form-body {
+    padding: clamp(30px, 6vw, 35px);
+  }
+
+  .btn-signup {
+    padding: clamp(14px, 3vw, 16px);
+    font-size: clamp(1rem, 2.5vw, 1.05rem);
+  }
+}
+
+
+
+
+
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animation to main elements */
+.wrapper,
+.form-header,
+.form-body,
+.form-group,
+.btn-signup,
+.error-message,
+.success-message,
+.login-link,
+.profile-image,
+.form-illustration,
+.terms {
+  opacity: 0; /* start hidden */
+  animation: fadeInUp 1s ease forwards;
+}
+
+/* Staggered animation delays */
+.form-header { animation-delay: 0.1s; }
+.profile-image { animation-delay: 0.2s; }
+.form-illustration { animation-delay: 0.25s; }
+.form-body { animation-delay: 0.3s; }
+.form-group:nth-child(1) { animation-delay: 0.35s; }
+.form-group:nth-child(2) { animation-delay: 0.4s; }
+.form-group:nth-child(3) { animation-delay: 0.45s; }
+.terms { animation-delay: 0.48s; }
+.btn-signup { animation-delay: 0.5s; }
+.error-message { animation-delay: 0.55s; }
+.success-message { animation-delay: 0.6s; }
+.login-link { animation-delay: 0.65s; }

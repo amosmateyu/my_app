@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Results - Heart Disease Risk Assessment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}"/>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="container nav-container">
+      <div class="logo">
+        <i class="fas fa-heartbeat" style="color: white; font-size: 24px;"></i>
+        <span class="logo-text">CardioCheck</span>
+      </div>
+      <ul class="nav-links">
+        <li>
+         
+          <li>
+            <a href="{{ url_for('main.home') }}" class="btn-nav">
+              <i class="fas fa-arrow-circle-right"></i>Back
+              
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('auth.logout') }}" id="logoutBtn" class="btn-nav">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </li>
+          
+
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <h1>Heart Disease Risk Assessment Results</h1>
+      <p>Your personalized risk analysis and recommendations</p>
+    </div>
+  </header>
+
+  <!-- Results Section -->
+  <section class="results-section">
+    <div class="container">
+      <!-- Risk Summary -->
+      <div class="risk-summary">
+        <h2 class="section-title">Your Results</h2>
+        <div id="riskLevel" class="risk-level">Loading...</div>
+        <div id="probability" class="probability">Loading...</div>
+        <p id="riskDescription" class="risk-description">Loading...</p>
+      </div>
+
+      <!-- Recommendations Section -->
+      <div class="recommendations">
+        <h2 class="section-title">Personalized Recommendations</h2>
+        <p id="recommendationIntro">Loading recommendations...</p>
+
+        <table class="recommendation-table">
+          <thead>
+            <tr>
+              <th>Factor</th>
+              <th>Recommendation</th>
+            </tr>
+          </thead>
+          <tbody id="recommendationTableBody">
+            <!-- Dynamic rows will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <a href="{{ url_for('main.prediction') }}" class="btn btn-primary">Reassess Your Risk</a>
+      
+        <a href="#" id="downloadReportBtn" class="btn btn-primary">Download Report</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+       
+      
+        <p class="copyright">© Heart Disease Risk Assessment. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='javascript/results.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/back_arrow.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/download.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/excel.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/logout.js') }}"></script>
+  
+
+</body>
+</html>

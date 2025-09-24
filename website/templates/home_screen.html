@@ -1,0 +1,121 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>CardioCheck - Heart Disease Diagnosis System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+   
+   
+  
+</head>
+<body>
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-heartbeat" style="color: white; font-size: 24px;"></i>
+                <span class="logo-text">CardioCheck</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('main.home') }}" class="btn-nav active">Home</a></li>
+                <li><a href="{{ url_for('main.prediction') }}" class="btn-nav">Assessment</a></li>
+                <li><a href="{{ url_for('main.about') }}" class="btn-nav">About</a></li>
+                <li>
+                    <a href="{{ url_for('auth.logout') }}" id="logoutBtn" class="btn-nav">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Heart Disease Risk Assessment</h1>
+            <p>
+                This tool empowers <strong>Health Surveillance Assistants (HSAs)</strong> 
+                and healthcare providers to detect heart disease risk early, 
+                support timely referrals, and improve community health outcomes.
+            </p>
+           
+           
+           
+        </div>
+    </section>
+
+
+    <!-- Heart Health Section -->
+    <section class="heart-health features">
+        <div class="container">
+            <h2 class="section-title">Heart Health Insights</h2>
+            <div class="features-grid">
+                <div class="feature-card risk">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Risk Factors</h3>
+          
+                    <p>blood pressure, cholesterol, smoking, obesity, diabetes, family history.</p>
+
+                </div>
+                <div class="feature-card prevention">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Prevention</h3>
+ 
+                    <p>Healthy lifestyle: diet, exercise, no smoking, stress and blood pressure control.</p>
+
+                </div>
+                <div class="feature-card recommendation">
+                    <div class="feature-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Recommendations</h3>
+                    <p>Regular check-ups and following medical advice ensure better heart health.</p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Preview Section -->
+    <section class="about-preview">
+        <div class="container">
+            <h2 class="section-title">Trusted by Medical Professionals</h2>
+           
+            <div class="about-content">
+
+                <p>Developed with data scientist, The system provides reliable heart risk assessment results.</p>
+                
+                
+                
+
+                <a href="{{ url_for('main.about') }}" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="copyright">© Heart Disease Risk Assessment System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='javascript/logout.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/back_arrow.js') }}"></script>
+    
+
+  
+</body>
+</html>

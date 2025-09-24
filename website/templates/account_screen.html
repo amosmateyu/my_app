@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Heart Disease Diagnosis System</title>
+
+  <!-- Font Awesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/account.css') }}">
+
+
+</head>
+<body>
+  <div class="wrapper">
+    <div class="form-header">
+      <h1>Create Account</h1>
+      <p>Sign up to access your heart health dashboard</p>
+    </div>
+
+    <div class="form-body">
+      <!-- ❌ Error message -->
+      <div id="errorMessage" class="error-message" style="display:none;">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="errorText"></span>
+      </div>
+
+      <!-- ✅ Success message -->
+      <div id="successMessage" class="success-message" style="display:none;">
+        <i class="fas fa-check-circle"></i>
+        <span id="successText"></span>
+      </div>
+
+      <form id="signupForm">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+          <div id="passwordStrength" class="password-strength"></div>
+        </div>
+
+  
+      
+        <!-- Button -->
+        <button type="submit" class="btn-signup">Sign Up</button>
+
+        <!-- Login Link with Malawi Flag -->
+        <div class="login-link">
+          <img src="{{ url_for('static', filename='images/malawi.png') }}" 
+               alt="Flag of Malawi" class="small-flag">
+          Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='javascript/account.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/back_arrow.js') }}"></script>
+  
+</body>
+</html>
