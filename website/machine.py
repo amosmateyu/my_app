@@ -4,20 +4,33 @@ import numpy as np
 import joblib
 import lime
 import lime.lime_tabular
+import os
 
-
-
-
+# ===============================
+# 1️⃣ Flask app setup
+# ===============================
 
 
 # ===============================
-# 2️⃣ Load model and training data (same folder as script)
+# 2️⃣ Load model and training data using environment variables
 # ===============================
-MODEL_FILE = "heart_risk_model.pkl.joblib"   # make sure this file is in the same folder
-DATA_FILE = "training_data_sample.csv"       # make sure this file is in the same folder
+MODEL_FILE = os.environ.get("MODEL_FILE", "heart_risk_model.joblib")
+DATA_FILE = os.environ.get("DATA_FILE", "training_data_sample.csv")
 
-model = joblib.load(MODEL_FILE)
-training_data = pd.read_csv(DATA_FILE)
+# Load model and training data
+try:
+    model = joblib.load(MODEL_FILE)
+except FileNotFoundError:
+    raise FileNotFoundError(
+        f"Model file not found: {MODEL_FILE}. Make sure it is uploaded and environment variable is set correctly."
+    )
+
+try:
+    training_data = pd.read_csv(DATA_FILE)
+except FileNotFoundError:
+    raise FileNotFoundError(
+        f"Training data file not found: {DATA_FILE}. Make sure it is uploaded and environment variable is set correctly."
+    )
 
 feature_names = training_data.columns.tolist()
 class_names = ["No Risk", "Risk"]
