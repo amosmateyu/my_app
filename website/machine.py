@@ -14,7 +14,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # website/
 PROJECT_DIR = os.path.dirname(BASE_DIR)  # heart_assessment/
 
-MODEL_PATH = os.path.join(PROJECT_DIR, "heart_risk_model.pkl")
+MODEL_PATH = os.path.join(PROJECT_DIR, "heart_risk_model.joblib")
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # website/
