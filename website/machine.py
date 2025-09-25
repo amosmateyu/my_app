@@ -1,45 +1,60 @@
-from flask import Flask, request, jsonify
+import os
+import glob
 import pandas as pd
 import numpy as np
 import joblib
 import lime
 import lime.lime_tabular
-import os
-import glob
-
-
-
-
-
 
 # ===============================
-# 2️⃣ Robust file search
+# 1️⃣ Function to find file recursively
 # ===============================
-def find_file(filename):
-    search_dirs = [
-        "/opt/render/project/src",  # Render root
-        os.getcwd()                 # local / wherever app is running
-    ]
-    for start_dir in search_dirs:
-        matches = glob.glob(os.path.join(start_dir, "**", filename), recursive=True)
+def find_file(filename_patterns, start_dir="."):
+    """
+    Searches for a file recursively in start_dir matching any of the filename_patterns.
+    Returns the first match found.
+    """
+    if isinstance(filename_patterns, str):
+        filename_patterns = [filename_patterns]
+
+    for pattern in filename_patterns:
+        matches = glob.glob(os.path.join(start_dir, "**", pattern), recursive=True)
         if matches:
             return matches[0]
-    raise FileNotFoundError(f"{filename} not found in any search directories: {search_dirs}")
 
-# Automatically locate model and CSV
-MODEL_PATH = find_file("heart_risk_model.joblib")
-DATA_PATH = find_file("training_data_sample.csv")
+    raise FileNotFoundError(f"No file found for patterns: {filename_patterns} in {start_dir}")
 
-# Load model and training data
-model = joblib.load(MODEL_PATH)
-training_data = pd.read_csv(DATA_PATH)
 
+# ===============================
+# 2️⃣ Locate model and CSV
+# ===============================
+try:
+    MODEL_PATH = find_file(["heart_risk_model.joblib", "heart_risk_model.pkl"], start_dir=os.getcwd())
+    DATA_PATH = find_file(["training_data_sample.csv"], start_dir=os.getcwd())
+except FileNotFoundError as e:
+    raise FileNotFoundError(f"Critical file missing: {e}")
+
+
+# ===============================
+# 3️⃣ Load model and training data
+# ===============================
+try:
+    model = joblib.load(MODEL_PATH)
+except Exception as e:
+    raise RuntimeError(f"Failed to load model at {MODEL_PATH}: {e}")
+
+try:
+    training_data = pd.read_csv(DATA_PATH)
+except Exception as e:
+    raise RuntimeError(f"Failed to load CSV at {DATA_PATH}: {e}")
+
+
+# ===============================
+# 4️⃣ Feature and LIME setup
+# ===============================
 feature_names = training_data.columns.tolist()
 class_names = ["No Risk", "Risk"]
 
-# ===============================
-# 3️⃣ Initialize LIME Explainer
-# ===============================
 explainer = lime.lime_tabular.LimeTabularExplainer(
     training_data=training_data.values,
     feature_names=feature_names,
@@ -48,8 +63,9 @@ explainer = lime.lime_tabular.LimeTabularExplainer(
     random_state=42
 )
 
+
 # ===============================
-# 4️⃣ Advice dictionaries
+# 5️⃣ Advice dictionaries
 # ===============================
 risk_advice = {
     "high_blood_pressure": "Maintain healthy blood pressure with low-salt diet and regular exercise.",
@@ -77,17 +93,30 @@ positive_advice = {
     "gender_identity": "Keep following heart-healthy lifestyle advice."
 }
 
+
 # ===============================
-# 5️⃣ Wrapper for model + LIME
+# 6️⃣ Model wrapper and recommendation function
 # ===============================
 def predict_proba_wrapper(x_numpy):
+    """
+    Wrapper to feed numpy array to model and get probabilities.
+    """
     x_df = pd.DataFrame(x_numpy, columns=feature_names)
     return model.predict_proba(x_df)
 
+
 def clean_feature_name(feature_label: str) -> str:
+    """
+    Extract the feature name from LIME output label
+    """
     return feature_label.split()[0]
 
+
 def generate_personalized_recommendations(patient_df: pd.DataFrame):
+    """
+    Generate predictions and personalized recommendations for a patient.
+    Returns dictionary with predicted class, probability, and feature-based advice.
+    """
     probs = predict_proba_wrapper(patient_df.values)[0]
     predicted_class = np.argmax(probs)
     is_high_risk = predicted_class == 1
@@ -114,17 +143,3 @@ def generate_personalized_recommendations(patient_df: pd.DataFrame):
         "probability": f"{probs[predicted_class]*100:.2f}%",
         "recommendations": recommendations
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
