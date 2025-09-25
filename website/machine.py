@@ -5,32 +5,34 @@ import joblib
 import lime
 import lime.lime_tabular
 import os
-
-# ===============================
-# 1️⃣ Flask app setup
-# ===============================
+import glob
 
 
+
+
+
+
 # ===============================
-# 2️⃣ Load model and training data using environment variables
+# 2️⃣ Robust file search
 # ===============================
-MODEL_FILE = os.environ.get("MODEL_FILE", "heart_risk_model.joblib")
-DATA_FILE = os.environ.get("DATA_FILE", "training_data_sample.csv")
+def find_file(filename):
+    search_dirs = [
+        "/opt/render/project/src",  # Render root
+        os.getcwd()                 # local / wherever app is running
+    ]
+    for start_dir in search_dirs:
+        matches = glob.glob(os.path.join(start_dir, "**", filename), recursive=True)
+        if matches:
+            return matches[0]
+    raise FileNotFoundError(f"{filename} not found in any search directories: {search_dirs}")
+
+# Automatically locate model and CSV
+MODEL_PATH = find_file("heart_risk_model.joblib")
+DATA_PATH = find_file("training_data_sample.csv")
 
 # Load model and training data
-try:
-    model = joblib.load(MODEL_FILE)
-except FileNotFoundError:
-    raise FileNotFoundError(
-        f"Model file not found: {MODEL_FILE}. Make sure it is uploaded and environment variable is set correctly."
-    )
-
-try:
-    training_data = pd.read_csv(DATA_FILE)
-except FileNotFoundError:
-    raise FileNotFoundError(
-        f"Training data file not found: {DATA_FILE}. Make sure it is uploaded and environment variable is set correctly."
-    )
+model = joblib.load(MODEL_PATH)
+training_data = pd.read_csv(DATA_PATH)
 
 feature_names = training_data.columns.tolist()
 class_names = ["No Risk", "Risk"]
@@ -112,3 +114,17 @@ def generate_personalized_recommendations(patient_df: pd.DataFrame):
         "probability": f"{probs[predicted_class]*100:.2f}%",
         "recommendations": recommendations
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
