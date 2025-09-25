@@ -6,29 +6,19 @@ import lime
 import lime.lime_tabular
 
 
+
+
+
+
 # ===============================
-# 1️⃣ Flask app setup
+# 2️⃣ Load model and training data (same folder as script)
 # ===============================
-import os
+MODEL_FILE = "heart_risk_model.pkl.joblib"   # make sure this file is in the same folder
+DATA_FILE = "training_data_sample.csv"       # make sure this file is in the same folder
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # website/
-PROJECT_DIR = os.path.dirname(BASE_DIR)  # heart_assessment/
+model = joblib.load(MODEL_FILE)
+training_data = pd.read_csv(DATA_FILE)
 
-MODEL_PATH = os.path.join(PROJECT_DIR, "heart_risk_model.joblib")
-
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # website/
-PROJECT_DIR = os.path.dirname(BASE_DIR)  # heart_assessment/
-
-DATA_PATH = os.path.join(PROJECT_DIR, "training_data_sample.csv")
-
-training_data = pd.read_csv(DATA_PATH)
-
-
-
-
-model = joblib.load(MODEL_PATH)
-training_data = pd.read_csv(DATA_PATH)
 feature_names = training_data.columns.tolist()
 class_names = ["No Risk", "Risk"]
 
@@ -73,7 +63,7 @@ positive_advice = {
 }
 
 # ===============================
-# 5️⃣ Wrapper for LIME
+# 5️⃣ Wrapper for model + LIME
 # ===============================
 def predict_proba_wrapper(x_numpy):
     x_df = pd.DataFrame(x_numpy, columns=feature_names)
@@ -82,41 +72,30 @@ def predict_proba_wrapper(x_numpy):
 def clean_feature_name(feature_label: str) -> str:
     return feature_label.split()[0]
 
-
-
-
 def generate_personalized_recommendations(patient_df: pd.DataFrame):
-    # Predict probabilities
     probs = predict_proba_wrapper(patient_df.values)[0]
     predicted_class = np.argmax(probs)
-    is_high_risk = predicted_class == 1  # 1 = Risk
+    is_high_risk = predicted_class == 1
 
-    # Explain prediction with LIME
     exp = explainer.explain_instance(
         patient_df.values[0],
-        predict_proba_wrapper,
-        #num_features=5
+        predict_proba_wrapper
     )
-    
+
     lime_features = exp.as_list()
     recommendations = {}
 
     for feature_condition, contribution in lime_features:
         feature = clean_feature_name(feature_condition)
-
         if is_high_risk:
             advice = risk_advice.get(feature) if contribution > 0 else positive_advice.get(feature)
         else:
             advice = positive_advice.get(feature) if contribution < 0 else risk_advice.get(feature)
-
         if advice and feature not in recommendations:
             recommendations[feature] = advice
 
     return {
         "predicted_class": "High Risk" if is_high_risk else "Low Risk",
-        "probability": f"{probs[predicted_class]*100:.2f}%",  # include probability
+        "probability": f"{probs[predicted_class]*100:.2f}%",
         "recommendations": recommendations
     }
-
-
-
